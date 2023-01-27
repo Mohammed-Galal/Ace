@@ -3,15 +3,43 @@ const JSX = require("./jsx.js"),
   { freezeObj, emptyStr } = require("./constants.js");
 
 res.jsx = freezeObj(JSX);
-res.set = null; // setting header
-res.download = null; // downloading a file
-res.data = {}; // data holder
 
 res.redirect = function (url) {
   this.statusCode = 302;
   this.setHeader("Location", url);
   this.end();
 };
+
+const required = [
+  "dataHolder",
+  "set",
+  // ====================
+  "app ",
+  "headersSent",
+  "locals",
+  "append()",
+  "attachment()",
+  "cookie()",
+  "clearCookie()",
+  "download()",
+  "format()",
+  "get()",
+  "json()",
+  "jsonp()",
+  "links()",
+  "location()",
+  "send()",
+  "sendFile()",
+  "sendStatus()",
+  "set()",
+  "status()",
+  "type()",
+  "vary()",
+  // "redirect()",
+  // "jsx",
+  // // "render()",
+  // // "end()",
+];
 
 // const savedData = (res.savedData = {});
 // res.save = function ($key, $value) {
