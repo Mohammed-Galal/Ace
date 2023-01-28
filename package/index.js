@@ -25,5 +25,5 @@ module.exports = function (configObj) {
 };
 
 mainHandler.listen = function () {
-  http.createServer(mainHandler).listen(arrFrom(arguments));
+  http.createServer(mainHandler).listen(arguments);
 };
