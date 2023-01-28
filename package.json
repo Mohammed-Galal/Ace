@@ -1,0 +1,26 @@
+{
+  "name": "nero",
+  "version": "0.0.1",
+  "description": "minimal web server framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mohammed-Galal/Nero.git"
+  },
+  "keywords": [
+    "nero",
+    "js",
+    "web-framework",
+    "web-server",
+    "server-framework"
+  ],
+  "author": "Mohammed Galal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mohammed-Galal/Nero/issues"
+  },
+  "homepage": "https://github.com/Mohammed-Galal/Nero#readme"
+}
