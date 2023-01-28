@@ -4,7 +4,6 @@ const http = require("http"),
 req.pathParams = {};
 
 const required = [
-  "app",
   "baseUrl",
   "body",
   "cookies",

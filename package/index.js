@@ -7,15 +7,8 @@ const http = require("http"),
   mainHandler = require("./mainHandler"),
   { arrFrom, emptyStr, freezeObj } = require("./constants.js");
 
-module.exports = function (port) {
-  initMethods();
-  if (port === undefined) return mainHandler;
-  const server = http.createServer(mainHandler);
-  server.listen.apply(server, arrFrom(arguments));
-};
-
 const extTrimmerExp = /\.[^]+$/;
-function initMethods() {
+module.exports = function (configObj) {
   const methodsInitialized = {};
 
   // get all methods initialized in the server folder and merge it with object above [methodsInitialized]
@@ -25,5 +18,12 @@ function initMethods() {
     ] = require("../server/" + method);
   });
 
+  Object.assign(mainHandler, configObj);
   mainHandler.methodsInitialized = freezeObj(methodsInitialized);
-}
+
+  return mainHandler;
+};
+
+mainHandler.listen = function () {
+  http.createServer(mainHandler).listen(arrFrom(arguments));
+};

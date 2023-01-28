@@ -14,7 +14,6 @@ const required = [
   "dataHolder",
   "set",
   // ====================
-  "app ",
   "headersSent",
   "locals",
   "append()",
