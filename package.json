@@ -4,7 +4,7 @@
   "description": "minimal web server framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/Mohammed-Galal/Nero/issues"
   },
-  "homepage": "https://github.com/Mohammed-Galal/Nero#readme"
+  "homepage": "https://github.com/Mohammed-Galal/Nero#readme",
+  "dependencies": {
+    "mime-types": "^2.1.35"
+  }
 }

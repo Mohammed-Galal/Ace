@@ -1,4 +1,5 @@
 const fs = require("fs"),
+  getMimeType = require("mime-types").lookup,
   url = require("url").parse,
   { isArray, emptyStr, extentionExp: hasExtentionExp } = require("./constants");
 
@@ -55,13 +56,14 @@ function formatPath(paths) {
 }
 
 function filePathCallback(err, content) {
-  const res = app.res;
+  const reqPath = app.reqPath,
+    res = app.res;
   if (err) {
     res.statusCode = 404;
     res.end();
   } else {
-    const mime = "";
     res.statusCode = 200;
+    const mime = getMimeType(reqPath);
     res.setHeader("Content-type", mime);
     res.end(content);
   }

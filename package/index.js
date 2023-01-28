@@ -2,8 +2,9 @@
 
 require("./request.js");
 require("./response.js");
-const http = require("http"),
-  methods = require("fs").readdirSync("server"),
+const resolve = require("path").resolve,
+  http = require("http"),
+  methods = require("fs").readdirSync(resolve(process.cwd() + "/server")),
   mainHandler = require("./mainHandler"),
   { arrFrom, emptyStr, freezeObj, extentionExp } = require("./constants.js");
 
