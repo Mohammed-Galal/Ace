@@ -1,20 +1,25 @@
-const url = require("url").parse,
-  { isArray } = require("./constants");
+const fs = require("fs"),
+  url = require("url").parse,
+  { isArray, emptyStr, extentionExp: hasExtentionExp } = require("./constants");
 
 const app = (module.exports = function (req, res) {
   const parsedURL = url(req.url),
-    targetMethod = app.methodsInitialized[req.method];
+    targetMethod = app.methodsInitialized[req.method],
+    pathname = (app.reqPath = parsedURL.pathname);
 
   app.req = req;
   app.res = res;
-  app.reqPath = parsedURL.pathname;
   app.pathParams = req.pathParams;
   app.queryParams = {};
 
-  if (targetMethod) targetMethod(req, res, app.route);
-  // else {
-  // //set 404 error
-  // }
+  if (hasExtentionExp.test(req.url)) {
+    const base = emptyStr + app.assetsFolder,
+      filePath = __dirname + base + pathname;
+    fs.readFile(filePath, filePathCallback);
+  } else if (targetMethod) targetMethod(req, res, app.route);
+  else {
+    //set 404 error
+  }
 
   if (res.writableEnded === false) res.end();
 });
@@ -46,7 +51,18 @@ route.matchedRoutes = matchedRoutes;
 
 function formatPath(paths) {
   if (isArray(paths)) return "(" + paths.map(formatPath).join("|") + ")";
-  return paths
-    .replace(/^\/|\/$/g, "")
-    .replace(/\:[^/]+/g, (m) => "(?<" + m.slice(1) + ">[^/]+)");
+  return paths.replace(/\:[^/]+/g, (m) => "(?<" + m.slice(1) + ">[^/]+)");
+}
+
+function filePathCallback(err, content) {
+  const res = app.res;
+  if (err) {
+    res.statusCode = 404;
+    res.end();
+  } else {
+    const mime = "";
+    res.statusCode = 200;
+    res.setHeader("Content-type", mime);
+    res.end(content);
+  }
 }

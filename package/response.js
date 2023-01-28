@@ -12,7 +12,6 @@ res.redirect = function (url) {
 
 const required = [
   "dataHolder",
-  "set",
   // ====================
   "headersSent",
   "locals",
@@ -30,10 +29,12 @@ const required = [
   "send()",
   "sendFile()",
   "sendStatus()",
-  "set()",
   "status()",
   "type()",
   "vary()",
+
+  // // "set",
+  // // "set()",
   // "redirect()",
   // "jsx",
   // // "render()",
