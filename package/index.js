@@ -16,7 +16,7 @@ const {
   } = require("./constants.js"),
   methodsPath = resolvePath(rootPath + "/server"),
   methods = fs.readdirSync(methodsPath),
-  mainHandler = require("./mainHandler");
+  { data, app: mainHandler } = require("./application");
 
 module.exports = function () {
   const methodsInitialized = {};
@@ -28,7 +28,7 @@ module.exports = function () {
     methodsInitialized[M] = require(methodPath);
   });
 
-  mainHandler.methodsInitialized = freezeObj(methodsInitialized);
+  data.methodsInitialized = freezeObj(methodsInitialized);
 
   if (arguments.length > 0) {
     const server = http.createServer(mainHandler);

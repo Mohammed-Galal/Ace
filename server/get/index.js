@@ -1,13 +1,12 @@
 module.exports = function (req, res, route) {
   console.log("root");
 
-  route("api", function () {
-    console.log(route.registeredMethods());
+  route("api/:id", function () {
+    console.log(route.info);
 
+    console.log(route.matchedRoutes);
     route("inner", () => console.log("inner"));
   });
-
-  console.log(route.matchedRoutes);
 };
 
 // function handler(req, res, route) {
