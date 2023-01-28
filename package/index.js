@@ -18,7 +18,7 @@ const {
   methods = fs.readdirSync(methodsPath),
   mainHandler = require("./mainHandler");
 
-module.exports = function (assetsFolder) {
+module.exports = function () {
   const methodsInitialized = {};
 
   // get all methods initialized in the server folder and merge it with object above [methodsInitialized]
@@ -28,13 +28,10 @@ module.exports = function (assetsFolder) {
     methodsInitialized[M] = require(methodPath);
   });
 
-  mainHandler.assetsFolder = assetsFolder;
   mainHandler.methodsInitialized = freezeObj(methodsInitialized);
 
-  return mainHandler;
-};
-
-mainHandler.listen = function () {
-  const server = http.createServer(mainHandler);
-  server.listen.apply(server, arrFrom(arguments));
+  if (arguments.length > 0) {
+    const server = http.createServer(mainHandler);
+    server.listen.apply(server, arrFrom(arguments));
+  } else return mainHandler;
 };

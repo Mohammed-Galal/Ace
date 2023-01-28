@@ -1,4 +1,3 @@
-const cnfg = require("./package/index"),
-  server = cnfg();
+const cnfg = require("./package/index");
 
-server.listen(9000, () => console.log("http://localhost:9000"));
+cnfg(9000, () => console.log("http://localhost:9000"));

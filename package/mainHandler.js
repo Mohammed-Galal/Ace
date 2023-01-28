@@ -1,7 +1,8 @@
 const fs = require("fs"),
+  resolvePath = require("path").resolve,
   getMimeType = require("mime-types").lookup,
   url = require("url").parse,
-  { isArray, emptyStr, extentionExp: hasExtentionExp } = require("./constants");
+  { isArray, extentionExp, rootPath } = require("./constants");
 
 const matchedRoutes = [],
   app = (module.exports = function (req, res) {
@@ -16,35 +17,29 @@ const matchedRoutes = [],
     app.pathParams = req.pathParams;
     app.queryParams = {};
 
-    if (hasExtentionExp.test(pathname)) {
-      const base = emptyStr + app.assetsFolder,
-        filePath = __dirname + base + pathname;
-      fs.readFile(filePath, filePathCallback);
+    if (extentionExp.test(pathname)) {
+      const filePath = resolvePath(rootPath + "/assets/" + pathname),
+        mime = getMimeType(pathname);
+      res.setHeader("Content-type", mime);
+
+      if (fs.existsSync(filePath)) {
+        res.statusCode = 200;
+        res.write(fs.readFileSync(filePath));
+      } else res.statusCode = 404;
     } else if (targetMethod) targetMethod(req, res, app.route);
-    else {
-      //set 404 error
-    }
 
     if (res.writableEnded === false) res.end();
   });
 
-function filePathCallback(err, content) {
-  const reqPath = app.reqPath,
-    res = app.res;
-  if (err) {
-    res.statusCode = 404;
-    res.end();
-  } else {
-    res.statusCode = 200;
-    const mime = getMimeType(reqPath);
-    res.setHeader("Content-type", mime);
-    res.end(content);
-  }
-}
-
 const openRoutes = [],
   route = (app.route = function (paths, $handler) {
-    if (arguments.length < 2) throw errors.route.missingArgs;
+    if (app.res.writableEnded)
+      return console.error(
+        "cannot handle ",
+        paths,
+        "because the response object has ended"
+      );
+    else if (arguments.length < 2) throw errors.route.missingArgs;
     else if (typeof paths !== "string" && !isArray(paths))
       throw errors.route.path;
     else if (typeof $handler !== "function") throw errors.route.handler;
@@ -69,7 +64,9 @@ route.registeredMethods = function () {
   return Object.keys(app.methodsInitialized);
 };
 
-const seprator = "/";
+const seprator = "/",
+  trimEndExp = /\/?\$$/,
+  trimVal = "/?$";
 function formatPath(paths, handleExps) {
   if (isArray(paths)) return "(" + paths.map(formatPath).join("|") + ")";
 
@@ -79,7 +76,7 @@ function formatPath(paths, handleExps) {
     return pathNormailized
       .map(paramHandler)
       .join(seprator)
-      .replace(/\/?\$$/, "/?$");
+      .replace(trimEndExp, trimVal);
 }
 
 function paramHandler(str) {

@@ -27,9 +27,16 @@ module.exports = new (function JSX() {
           ? node[0]
           : resolveContainer(currentContainer.component[node[0]]),
         attrs = evalStr(node[1]);
-      if (node.length === 2) return "<" + tag + " " + attrs + " />";
-      const children = node[2].map(createNode).join(emptyStr);
-      return "<" + tag + " " + attrs + ">" + children + "</" + tag + ">";
+      return (
+        "<" +
+        tag +
+        " " +
+        attrs +
+        (node.length > 2
+          ? ">" + node[2].map(createNode).join(emptyStr) + "</" + tag
+          : "/") +
+        ">"
+      );
     }
 
     return evalStr(node);
