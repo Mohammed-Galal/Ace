@@ -1,4 +1,5 @@
 module.exports = {
+  rootPath: process.cwd(),
   extentionExp: /\.[^]+$/,
   freezeObj: Object.freeze,
   isArray: Array.isArray,

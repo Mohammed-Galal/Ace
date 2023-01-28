@@ -1,5 +1,4 @@
-const cnfg = require("./package/index");
+const cnfg = require("./package/index"),
+  server = cnfg();
 
-const server = cnfg("/assetsFolder");
-
-server.listen(9000);
+server.listen(9000, () => console.log("http://localhost:9000"));
