@@ -13,45 +13,23 @@ const fs = require("fs"),
 
 const data = (module.exports.data = {
   methodsInitialized: {},
-  matchedRoutes: (route.matchedRoutes = []),
-  route: new (function RouteInfo() {
-    this.params =
-      this.ip =
-      this.host =
-      this.isXhr =
-      this.hostName =
-      this.baseUrl =
-      this.protocol =
-      this.path =
-      this.originalUrl =
-      this.queryParams =
-      this.subdomains =
-        null;
-  })(),
-});
-
-route.registeredMethods = Object.keys(data.methodsInitialized);
-Object.defineProperty(route, "info", {
-  get() {
-    return data.route;
+  route: {
+    matched: [],
   },
 });
+data.route.registeredMethods = Object.keys(data.methodsInitialized);
 
 module.exports.app = function (req, res) {
-  const parsedURL = url(req.url),
-    targetMethod = data.methodsInitialized[req.method],
-    pathname = (data.route.pathname = formatPath(parsedURL.pathname));
+  const pathname = resetRouteInfo(req),
+    targetMethod = data.methodsInitialized[req.method];
 
   data.req = req;
   data.res = res;
-  data.route.queryParams = objFromEntries(new SP(parsedURL.query));
-  data.matchedRoutes.length = 0;
 
   if (extentionExp.test(pathname)) {
     const filePath = resolvePath(rootPath + "/assets/" + pathname),
       mime = getMimeType(pathname);
     res.setHeader("Content-type", mime);
-
     if (fs.existsSync(filePath)) {
       res.statusCode = 200;
       res.write(fs.readFileSync(filePath));
@@ -60,6 +38,25 @@ module.exports.app = function (req, res) {
 
   if (res.writableEnded === false) res.end();
 };
+
+function resetRouteInfo(req) {
+  const parsedURL = url(req.url),
+    R = data.route;
+
+  R.matched.length = 0;
+  R.path = formatPath(parsedURL.pathname);
+  R.queryParams = objFromEntries(new SP(parsedURL.query));
+  R.params = {};
+
+  R.ip = null;
+  R.host = null;
+  R.hostName = null;
+  R.baseUrl = null;
+  R.originalUrl = null;
+  R.subdomains = null;
+
+  return R.path;
+}
 
 const openRoutes = [];
 function route(paths, $handler) {
@@ -76,10 +73,10 @@ function route(paths, $handler) {
 
   const path = formatPath(paths, true),
     regEx = new RegExp("^/?" + openRoutes.concat(path).join("/"), "g"),
-    isMatched = regEx.exec(data.route.pathname);
+    isMatched = regEx.exec(data.route.path);
 
   if (isMatched === null) return false;
-  data.matchedRoutes.push(paths);
+  data.route.matched.push(paths);
   const prevParams = data.route.params;
   data.route.params = isMatched.groups;
   openRoutes.push(path);
@@ -88,3 +85,28 @@ function route(paths, $handler) {
   data.route.params = prevParams;
   return true;
 }
+
+const routeProps = {};
+[
+  "matched",
+  "registeredMethods",
+  "params",
+  "ip",
+  "host",
+  "hostName",
+  "baseUrl",
+  "protocol",
+  "path",
+  "originalUrl",
+  "queryParams",
+  "subdomains",
+].forEach(function (prop) {
+  routeProps[prop] = {
+    get() {
+      return data.route[prop];
+    },
+    enumerable: true,
+  };
+});
+
+Object.defineProperties(route, routeProps);

@@ -2,9 +2,9 @@ module.exports = function (req, res, route) {
   console.log("root");
 
   route("api/:id", function () {
-    console.log(route.info);
+    console.log(route);
+    console.log(route.matched, route.path, route.params, route.queryParams);
 
-    console.log(route.matchedRoutes);
     route("inner", () => console.log("inner"));
   });
 };

@@ -9,6 +9,7 @@ const required = [
   "cookies",
   "signedCookies",
   //
+  "isXhr",
   "body",
   "fresh",
   "secure",
