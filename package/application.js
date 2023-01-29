@@ -40,20 +40,21 @@ module.exports.app = function (req, res) {
 };
 
 function resetRouteInfo(req) {
-  const parsedURL = url(req.url),
-    R = data.route;
+  const R = data.route,
+    host = (R.host = req.headers.host),
+    parsedURL = url("http://" + host + req.url);
 
   R.matched.length = 0;
   R.path = formatPath(parsedURL.pathname);
   R.queryParams = objFromEntries(new SP(parsedURL.query));
   R.params = {};
+  R.port = parsedURL.port;
+  R.hostName = parsedURL.hostname;
+  R.hash = parsedURL.hash;
+  R.ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  R.subdomains = R.host.split(".").slice(0, -1);
 
-  R.ip = null;
-  R.host = null;
-  R.hostName = null;
-  R.baseUrl = null;
-  R.originalUrl = null;
-  R.subdomains = null;
+  // R.protocol = null;
 
   return R.path;
 }
@@ -92,14 +93,16 @@ const routeProps = {};
   "registeredMethods",
   "params",
   "ip",
+  "port",
   "host",
   "hostName",
-  "baseUrl",
-  "protocol",
+  "hash",
   "path",
-  "originalUrl",
   "queryParams",
   "subdomains",
+  // "baseUrl",
+  // "protocol",
+  // "originalUrl",
 ].forEach(function (prop) {
   routeProps[prop] = {
     get() {

@@ -3,7 +3,14 @@ module.exports = function (req, res, route) {
 
   route("api/:id", function () {
     console.log(route);
-    console.log(route.matched, route.path, route.params, route.queryParams);
+    console.log(
+      route.hostName,
+      route.ip,
+      route.port,
+      route.path,
+      route.params,
+      route.queryParams
+    );
 
     route("inner", () => console.log("inner"));
   });

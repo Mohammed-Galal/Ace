@@ -13,7 +13,6 @@ const required = [
   "body",
   "fresh",
   "secure",
-  "route",
   "stale",
   //
   "accepts()",
