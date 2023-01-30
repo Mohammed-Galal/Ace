@@ -1,9 +1,4 @@
-const http = require("http"),
-  req = (module.exports = http.IncomingMessage.prototype);
-
-req.init;
-
-req.pathParams = {};
+const { reqProto: req } = require("./constants");
 
 const required = [
   "cookies",

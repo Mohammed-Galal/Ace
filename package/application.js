@@ -1,8 +1,7 @@
-const fs = require("fs"),
-  resolvePath = require("path").resolve,
+const { fs, path, extentionExp, rootPath } = require("./constants"),
+  resolvePath = path.resolve,
   getMimeType = require("mime-types").lookup,
-  { data, route, resetRouteInfo } = require("./router"),
-  { extentionExp, rootPath } = require("./constants");
+  { data, route, resetRouteInfo } = require("./router");
 
 const methodsInitialized = {};
 module.exports = {

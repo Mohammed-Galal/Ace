@@ -1,4 +1,12 @@
+const http = require("http");
+
 module.exports = {
+  fs: require("fs"),
+  path: require("path"),
+  http,
+  reqProto: http.IncomingMessage.prototype,
+  resProto: http.ServerResponse.prototype,
+
   rootPath: process.cwd(),
   extentionExp: /\.[^]+$/,
   SP: URLSearchParams,

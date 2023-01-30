@@ -1,8 +1,4 @@
-const JSX = require("./jsx.js"),
-  res = (module.exports = require("http").ServerResponse.prototype),
-  { freezeObj, emptyStr } = require("./constants.js");
-
-res.jsx = freezeObj(JSX);
+const { resProto: res } = require("./constants.js");
 
 res.redirect = function (url) {
   this.statusCode = 302;

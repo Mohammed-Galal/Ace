@@ -1,10 +1,10 @@
-const { isArray } = require("./constants");
+const { isArray } = require("../constants");
 
 const seprator = "/",
   trimEndExp = /\/?\$$/,
   trimVal = "/?$";
 
-module.exports.formatPath = function formatPath(paths, handleExps) {
+module.exports = function formatPath(paths, handleExps) {
   if (isArray(paths)) return "(" + paths.map(formatPath).join("|") + ")";
 
   const pathNormailized = paths.split(seprator);

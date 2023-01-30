@@ -1,6 +1,5 @@
 const url = require("url").parse,
-  { data, route, resetRouteInfo } = require("./router"),
-  { formatPath } = require("./utils"),
+  formatPath = require("./utils/formatPath"),
   { objFromEntries, SP } = require("./constants");
 
 const openRoutes = [],

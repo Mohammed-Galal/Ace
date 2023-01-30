@@ -3,9 +3,8 @@
 require("./request.js");
 require("./response.js");
 
-const http = require("http"),
-  resolvePath = require("path").resolve,
-  fs = require("fs");
+const { http, fs, path } = require("./constants"),
+  resolvePath = path.resolve;
 
 const { arrFrom, emptyStr, extentionExp, rootPath } = require("./constants.js"),
   methodsPath = resolvePath(rootPath + "/server"),
