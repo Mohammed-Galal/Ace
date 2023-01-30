@@ -7,7 +7,7 @@ const seprator = "/",
 module.exports.formatPath = function formatPath(paths, handleExps) {
   if (isArray(paths)) return "(" + paths.map(formatPath).join("|") + ")";
 
-  const pathNormailized = paths.split(seprator).filter(Boolean);
+  const pathNormailized = paths.split(seprator);
   if (handleExps !== true) return pathNormailized.join(seprator);
   else
     return pathNormailized
