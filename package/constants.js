@@ -7,6 +7,7 @@ module.exports = {
   reqProto: http.IncomingMessage.prototype,
   resProto: http.ServerResponse.prototype,
 
+  Store: new require("./utils/mapPolyfill")(),
   rootPath: process.cwd(),
   SP: URLSearchParams,
   objFromEntries: Object.fromEntries,

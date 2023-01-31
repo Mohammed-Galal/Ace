@@ -1,4 +1,6 @@
-const { resProto: res } = require("./constants.js");
+const { resProto: res, Store } = require("./constants.js");
+
+res.store = Store;
 
 res.redirect = function (url) {
   this.statusCode = 302;

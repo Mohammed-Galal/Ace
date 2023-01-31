@@ -13,7 +13,7 @@ module.exports = { route, data, resetRouteInfo };
 function route(paths, $handler) {
   const pathsType = Boolean(paths) && paths.constructor.name;
   let isMatched = null;
-  
+
   if (pathsType === false) throw "undefined routePath(s)";
   else if (pathsType === "Object") {
     const routes = Object.keys(paths);
@@ -101,3 +101,4 @@ const routeProps = {
 });
 
 Object.defineProperties(route, routeProps);
+Object.freeze(route);

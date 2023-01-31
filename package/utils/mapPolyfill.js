@@ -1,7 +1,7 @@
-module.exports = Map;
+module.exports = Store;
 
-const proto = Map.prototype;
-function Map() {}
+const proto = Store.prototype;
+function Store() {}
 
 proto.set = function (key, val) {
   this[key] =
@@ -53,13 +53,3 @@ Object.defineProperties(proto, {
     },
   },
 });
-
-const test = new Map();
-
-test.set("i", 1);
-test.set("i", (s) => s + 1);
-test.set("i", (s) => s + 1);
-test.set("i", (s) => s + 1);
-test.set("i", (s) => s + 1);
-
-console.log(test);
