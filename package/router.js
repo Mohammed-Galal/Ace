@@ -12,13 +12,12 @@ module.exports = { route, data, resetRouteInfo };
 
 function route(paths, $handler) {
   const pathsType = paths.constructor.name;
-  let isMatched = false;
+  let isMatched = null;
 
   if (pathsType === "Object") {
     const routes = Object.keys(paths);
     routes.forEach(function (r) {
-      if (isMatched) return;
-      isMatched = route(r, paths[r]);
+      if (isMatched === null) isMatched = route(r, paths[r]);
     });
     return isMatched;
   }
@@ -38,15 +37,15 @@ function route(paths, $handler) {
 
   isMatched = regEx.exec(data.path);
 
-  if (!Boolean(isMatched)) return false;
+  if ((isMatched) === null) return isMatched;
   data.matched.push(paths);
   const prevParams = data.params;
   data.params = isMatched.groups;
   openRoutes.push(path);
-  $handler(data.req, data.res, route);
+  const handlerResult = $handler(data.req, data.res, route);
   openRoutes.pop();
   data.params = prevParams;
-  return true;
+  return handlerResult;
 }
 
 function resetRouteInfo(req) {
