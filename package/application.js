@@ -15,6 +15,6 @@ function app(req, res) {
   resetRouteInfo(req);
 
   if (targetMethod) targetMethod(req, res, route);
-  else if (methodsInitialized.notFound)
-    methodsInitialized.notFound(req, res, route);
+  else if (methodsInitialized.NOTFOUND)
+    methodsInitialized.NOTFOUND(req, res, route);
 }
