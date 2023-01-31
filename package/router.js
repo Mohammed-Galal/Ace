@@ -11,10 +11,11 @@ const openRoutes = [],
 module.exports = { route, data, resetRouteInfo };
 
 function route(paths, $handler) {
-  const pathsType = paths.constructor.name;
   let isMatched = null;
-
-  if (pathsType === "Object") {
+  const pathsType = paths === undefined ? null : paths.constructor.name;
+  
+  if (pathsType === null) throw "undefined routePath(s)";
+  else if (pathsType === "Object") {
     const routes = Object.keys(paths);
     routes.forEach(function (r) {
       if (isMatched === null) isMatched = route(r, paths[r]);
@@ -37,7 +38,7 @@ function route(paths, $handler) {
 
   isMatched = regEx.exec(data.path);
 
-  if ((isMatched) === null) return isMatched;
+  if (isMatched === null) return isMatched;
   data.matched.push(paths);
   const prevParams = data.params;
   data.params = isMatched.groups;
