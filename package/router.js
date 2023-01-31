@@ -11,8 +11,8 @@ const openRoutes = [],
 module.exports = { route, data, resetRouteInfo };
 
 function route(paths, $handler) {
-  let isMatched = null;
   const pathsType = Boolean(paths) && paths.constructor.name;
+  let isMatched = null;
   
   if (pathsType === false) throw "undefined routePath(s)";
   else if (pathsType === "Object") {
