@@ -1,7 +1,8 @@
 const url = require("url").parse,
+  typeCheck = require("type-check").typeCheck,
   formatPath = require("./utils/formatPath"),
   extentionExp = /\.[^]+$/,
-  { objFromEntries, SP } = require("./constants");
+  { objFromEntries, SP, arrFrom } = require("./constants");
 
 const openRoutes = [],
   data = {
@@ -11,42 +12,36 @@ const openRoutes = [],
 module.exports = { route, data, resetRouteInfo };
 
 function route(paths, $handler) {
-  const pathsType = Boolean(paths) && paths.constructor.name;
-  let isMatched = null;
-
-  if (pathsType === false) throw "undefined routePath(s)";
-  else if (pathsType === "Object") {
-    const routes = Object.keys(paths);
-    routes.forEach(function (r) {
-      if (isMatched === null) isMatched = route(r, paths[r]);
-    });
-    return isMatched;
-  }
-
   if (data.res.writableEnded)
     return console.error(
       "cannot handle ",
       paths,
       "because the response object has ended"
     );
-  else if (arguments.length < 2) throw errors.route.missingArgs;
-  else if (!/String|Array/i.test(pathsType)) throw errors.route.path;
-  else if (typeof $handler !== "function") throw errors.route.handler;
 
-  const path = formatPath(paths, true),
-    regEx = new RegExp("^/?" + openRoutes.concat(path).join("/"), "g");
+  let isMatched = null;
+  if (typeCheck("Object", paths)) {
+    const routes = Object.keys(paths);
+    routes.forEach(function (r) {
+      if (isMatched === null) isMatched = route(r, paths[r]);
+    });
+    return isMatched;
+  } else if (typeCheck("(String | Array, Function)", arrFrom(arguments))) {
+    const path = formatPath(paths, true),
+      regEx = new RegExp("^/?" + openRoutes.concat(path).join("/"), "g");
 
-  isMatched = regEx.exec(data.path);
+    isMatched = regEx.exec(data.path);
 
-  if (isMatched === null) return isMatched;
-  data.matched.push(paths);
-  const prevParams = data.params;
-  data.params = isMatched.groups;
-  openRoutes.push(path);
-  const handlerResult = $handler(data.req, data.res, route);
-  openRoutes.pop();
-  data.params = prevParams;
-  return handlerResult;
+    if (isMatched === null) return isMatched;
+    data.matched.push(paths);
+    const prevParams = data.params;
+    data.params = isMatched.groups;
+    openRoutes.push(path);
+    const handlerResult = $handler(data.req, data.res, route);
+    openRoutes.pop();
+    data.params = prevParams;
+    return handlerResult;
+  }
 }
 
 function resetRouteInfo(req) {

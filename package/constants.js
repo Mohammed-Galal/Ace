@@ -1,4 +1,5 @@
-const http = require("http");
+const http = require("http"),
+  MapPolyfill = require("./utils/mapPolyfill");
 
 module.exports = {
   fs: require("fs"),
@@ -7,7 +8,7 @@ module.exports = {
   reqProto: http.IncomingMessage.prototype,
   resProto: http.ServerResponse.prototype,
 
-  Store: new require("./utils/mapPolyfill")(),
+  Store: new MapPolyfill(),
   rootPath: process.cwd(),
   SP: URLSearchParams,
   objFromEntries: Object.fromEntries,

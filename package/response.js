@@ -9,7 +9,6 @@ res.redirect = function (url) {
 };
 
 const required = [
-  "dataHolder",
   // ====================
   "headersSent",
   "locals",
@@ -33,6 +32,7 @@ const required = [
 
   // // "set",
   // // "set()",
+  // "dataHolder",
   // "redirect()",
   // "jsx",
   // // "render()",

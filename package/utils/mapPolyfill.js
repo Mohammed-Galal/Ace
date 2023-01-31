@@ -1,7 +1,7 @@
 module.exports = Store;
 
-const proto = Store.prototype;
 function Store() {}
+const proto = Store.prototype;
 
 proto.set = function (key, val) {
   this[key] =
@@ -39,7 +39,7 @@ proto.json = function () {
 };
 
 Object.defineProperties(proto, {
-  key: {
+  keys: {
     enumerable: true,
     get() {
       return Object.keys(this);

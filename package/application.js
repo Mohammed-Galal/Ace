@@ -17,4 +17,6 @@ function app(req, res) {
   if (targetMethod) targetMethod(req, res, route);
   else if (methodsInitialized.NOTFOUND)
     methodsInitialized.NOTFOUND(req, res, route);
+
+  res.store.clear();
 }
