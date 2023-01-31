@@ -12,9 +12,9 @@ module.exports = { route, data, resetRouteInfo };
 
 function route(paths, $handler) {
   let isMatched = null;
-  const pathsType = paths === undefined ? null : paths.constructor.name;
+  const pathsType = Boolean(paths) && paths.constructor.name;
   
-  if (pathsType === null) throw "undefined routePath(s)";
+  if (pathsType === false) throw "undefined routePath(s)";
   else if (pathsType === "Object") {
     const routes = Object.keys(paths);
     routes.forEach(function (r) {
