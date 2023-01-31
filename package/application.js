@@ -1,7 +1,4 @@
-const { fs, path, extentionExp, rootPath } = require("./constants"),
-  resolvePath = path.resolve,
-  getMimeType = require("mime-types").lookup,
-  { data, route, resetRouteInfo } = require("./router");
+const { data, route, resetRouteInfo } = require("./router");
 
 const methodsInitialized = {};
 module.exports = {
@@ -12,21 +9,12 @@ module.exports = {
 data.registeredMethods = Object.keys(methodsInitialized);
 
 function app(req, res) {
-  const pathname = resetRouteInfo(req),
-    targetMethod = methodsInitialized[req.method];
-
+  const targetMethod = methodsInitialized[req.method];
   data.req = req;
   data.res = res;
+  resetRouteInfo(req);
 
-  if (extentionExp.test(pathname)) {
-    const filePath = resolvePath(rootPath + "/assets/" + pathname),
-      mime = getMimeType(pathname);
-    res.setHeader("Content-type", mime);
-    if (fs.existsSync(filePath)) {
-      res.statusCode = 200;
-      res.write(fs.readFileSync(filePath));
-    } else res.statusCode = 404;
-  } else if (targetMethod) targetMethod(req, res, route);
-
-  if (res.writableEnded === false) res.end();
+  if (targetMethod) targetMethod(req, res, route);
+  else if (methodsInitialized.notFound)
+    methodsInitialized.notFound(req, res, route);
 }

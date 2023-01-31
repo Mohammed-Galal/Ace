@@ -8,7 +8,6 @@ module.exports = {
   resProto: http.ServerResponse.prototype,
 
   rootPath: process.cwd(),
-  extentionExp: /\.[^]+$/,
   SP: URLSearchParams,
   objFromEntries: Object.fromEntries,
   freezeObj: Object.freeze,

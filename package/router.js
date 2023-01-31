@@ -1,5 +1,6 @@
 const url = require("url").parse,
   formatPath = require("./utils/formatPath"),
+  extentionExp = /\.[^]+$/,
   { objFromEntries, SP } = require("./constants");
 
 const openRoutes = [],
@@ -67,17 +68,24 @@ function resetRouteInfo(req) {
   return data.path;
 }
 
-const routeProps = {};
+const routeProps = {
+  isFilePath: {
+    enumerable: true,
+    get() {
+      return extentionExp.test(data.path);
+    },
+  },
+};
 [
-  "matched",
   "registeredMethods",
+  "matched",
+  "path",
   "params",
-  "ip",
   "port",
   "host",
   "hostName",
+  "ip",
   "hash",
-  "path",
   "queryParams",
   "subdomains",
   // "baseUrl",

@@ -34,6 +34,10 @@ proto.clear = function () {
   });
 };
 
+proto.json = function () {
+  return JSON.stringify(this);
+};
+
 Object.defineProperties(proto, {
   key: {
     enumerable: true,
