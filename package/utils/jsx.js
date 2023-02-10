@@ -1,3 +1,55 @@
+const mostImportantTags4SEO = [
+  "style",
+  "div",
+  "span",
+  "header",
+  "footer",
+  "main",
+  "section",
+  "article",
+  "aside",
+  "details",
+  "dialog",
+  "summary",
+  "data",
+  "table",
+  "caption",
+  "th",
+  "tr",
+  "td",
+  "thead",
+  "tbody",
+  "tfoot",
+  "col",
+  "colgroup",
+  "ul",
+  "ol",
+  "li",
+  "dl",
+  "dt",
+  "dd",
+  "a",
+  "link",
+  "nav",
+];
+
+const vision = [
+  {
+    route: null,
+    tempPath: "/nav",
+  },
+];
+
+function Container(context) {
+  this.components = context.components;
+  this.scripts = context.scripts;
+  this.resolveDom(context.dom);
+}
+
+const proto = Container.prototype;
+
+proto.handleElement = function (dom) {};
+
 const { Num, isArray, isNaN, emptyStr } = require("../constants");
 
 module.exports = new (function JSX() {

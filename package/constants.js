@@ -17,5 +17,6 @@ module.exports = {
   arrFrom: Array.from,
   Num: Number.parseInt,
   isNaN: Number.isNaN,
+  extentionExp: /\..+$/,
   emptyStr: "",
 };

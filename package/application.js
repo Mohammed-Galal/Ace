@@ -1,4 +1,4 @@
-const { data, route, resetRouteInfo } = require("./router");
+const resetRouteInfo = require("./router");
 
 const methodsInitialized = {};
 module.exports = {
@@ -6,13 +6,9 @@ module.exports = {
   methodsInitialized,
 };
 
-data.registeredMethods = Object.keys(methodsInitialized);
-
 function app(req, res) {
-  const targetMethod = methodsInitialized[req.method];
-  data.req = req;
-  data.res = res;
-  resetRouteInfo(req);
+  const route = resetRouteInfo(req, res, methodsInitialized),
+    targetMethod = methodsInitialized[req.method];
 
   if (targetMethod) targetMethod(req, res, route);
   else if (methodsInitialized.NOTFOUND)

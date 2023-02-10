@@ -6,10 +6,9 @@ const url = require("url").parse,
 
 const openRoutes = [],
   data = {
+    params: {},
     matched: [],
   };
-
-module.exports = { route, data, resetRouteInfo };
 
 function route(paths, $handler) {
   if (data.res.writableEnded)
@@ -44,56 +43,78 @@ function route(paths, $handler) {
   }
 }
 
-function resetRouteInfo(req) {
-  const host = (data.host = req.headers.host),
-    parsedURL = url("http://" + host + req.url);
-
-  data.matched.length = 0;
-  data.path = formatPath(parsedURL.pathname);
-  data.queryParams = objFromEntries(new SP(parsedURL.query));
+module.exports = function (req, res, methods) {
+  data.req = req;
+  data.res = res;
+  data.methods = Object.keys(methods);
   data.params = {};
-  data.port = parsedURL.port;
-  data.hostName = parsedURL.hostname;
-  data.hash = parsedURL.hash;
-  data.ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-  data.subdomains = data.host.split(".").slice(0, -1);
+  data.matched.length = 0;
+  const host = (data.host = req.headers.host);
+  data.reqURL = url("http://" + host + req.url);
+  return route;
+};
 
-  // data.protocol = null;
-
-  return data.path;
-}
-
-const routeProps = {
+Object.defineProperties(route, {
+  methods: {
+    enumerable: true,
+    get() {
+      return data.methods;
+    },
+  },
+  matched: {
+    enumerable: true,
+    get() {
+      return data.matched;
+    },
+  },
+  path: {
+    enumerable: true,
+    get() {
+      return formatPath(data.reqURL.pathname);
+    },
+  },
+  queryParams: {
+    enumerable: true,
+    get() {
+      return objFromEntries(new SP(data.reqURL.query));
+    },
+  },
+  port: {
+    enumerable: true,
+    get() {
+      return data.reqURL.port;
+    },
+  },
+  hostName: {
+    enumerable: true,
+    get() {
+      return data.reqURL.hostname;
+    },
+  },
+  ip: {
+    enumerable: true,
+    get() {
+      const req = data.req;
+      return req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+    },
+  },
+  subdomains: {
+    enumerable: true,
+    get() {
+      return data.host.split(".").slice(0, -1);
+    },
+  },
+  hash: {
+    enumerable: true,
+    get() {
+      return data.reqURL.hash;
+    },
+  },
   isFilePath: {
     enumerable: true,
     get() {
-      return extentionExp.test(data.path);
+      return extentionExp.test(data.reqURL.pathname);
     },
   },
-};
-[
-  "registeredMethods",
-  "matched",
-  "path",
-  "params",
-  "port",
-  "host",
-  "hostName",
-  "ip",
-  "hash",
-  "queryParams",
-  "subdomains",
-  // "baseUrl",
-  // "protocol",
-  // "originalUrl",
-].forEach(function (prop) {
-  routeProps[prop] = {
-    get() {
-      return data[prop];
-    },
-    enumerable: true,
-  };
 });
-
-Object.defineProperties(route, routeProps);
 Object.freeze(route);

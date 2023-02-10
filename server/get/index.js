@@ -3,7 +3,7 @@ const { fs, path, rootPath } = require("../../package/constants"),
   getMimeType = require("mime-types").lookup;
 
 module.exports = function (req, res, route) {
-  console.log("root");
+  console.log(route.isFilePath, route.path);
 
   if (route.isFilePath) {
     const filePath = resolvePath(rootPath + "/assets/" + route.path),
