@@ -6,8 +6,7 @@ require("./response.js");
 ("use strict");
 
 module.exports = function () {
-  if (arguments.length > 0) {
-    const server = http.createServer(mainHandler);
-    server.listen.apply(server, arrFrom(arguments));
-  } else return mainHandler;
+  if (arguments.length === 0) return mainHandler;
+  const server = http.createServer(mainHandler);
+  server.listen.apply(server, arrFrom(arguments));
 };
