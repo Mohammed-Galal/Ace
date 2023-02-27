@@ -1,5 +1,4 @@
-const { http } = require("./constants"),
-  { arrFrom } = require("./constants.js"),
+const { http, arrFrom } = require("./constants"),
   mainHandler = require("./application");
 require("./request.js");
 require("./response.js");
