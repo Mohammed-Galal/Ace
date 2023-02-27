@@ -1,24 +1,12 @@
-"use strict";
-
+const { http } = require("./constants"),
+  { arrFrom } = require("./constants.js"),
+  mainHandler = require("./application");
 require("./request.js");
 require("./response.js");
 
-const { http, fs, path } = require("./constants"),
-  resolvePath = path.resolve;
-
-const { arrFrom, emptyStr, extentionExp, rootPath } = require("./constants.js"),
-  methodsPath = resolvePath(rootPath + "/server"),
-  methods = fs.readdirSync(methodsPath),
-  { methodsInitialized, app: mainHandler } = require("./application");
+("use strict");
 
 module.exports = function () {
-  // get all methods initialized in the server folder and merge it with object above [methodsInitialized]
-  methods.forEach(function (method) {
-    const M = method.toUpperCase().replace(extentionExp, emptyStr),
-      methodPath = methodsPath + "/" + method;
-    methodsInitialized[M] = require(methodPath);
-  });
-
   if (arguments.length > 0) {
     const server = http.createServer(mainHandler);
     server.listen.apply(server, arrFrom(arguments));

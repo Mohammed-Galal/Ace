@@ -15,6 +15,15 @@ module.exports = function (req, res, route) {
     } else res.statusCode = 404;
   }
 
+  // res.writeHead(200, {
+  //   "content-type": "text/html",
+  //   "access-control-allow-credentials": true,
+  //   "access-control-allow-origin": "*",
+  //   "access-control-allow-methods": "GET, POST",
+  //   "access-control-allow-headers":
+  //     "X-Requested-With,content-type, Authorization",
+  // });
+
   route({
     "/1": () => res.write("first route"),
     "/2": () => res.write("second route"),
