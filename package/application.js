@@ -9,7 +9,7 @@ const resetRouteInfo = require("./router"),
 module.exports = function (req, res) {
   res.setHeader("access-control-allow-methods", accessControlAllowMethods);
 
-  const route = resetRouteInfo(req, res, methodsInitialized),
+  const route = resetRouteInfo(req, res, accessControlAllowMethods),
     targetMethod = methodsInitialized[req.method];
 
   if (targetMethod) targetMethod(req, res, route);

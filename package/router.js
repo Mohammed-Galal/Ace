@@ -27,10 +27,8 @@ function route(paths, $handler) {
     return isMatched;
   } else if (typeCheck("(String | Array, Function)", arrFrom(arguments))) {
     const path = formatPath(paths, true),
-      regEx = new RegExp("^/?" + openRoutes.concat(path).join("/"), "g");
-
-    isMatched = regEx.exec(data.path);
-
+      regEx = new RegExp("^/?" + openRoutes.concat(path).join("/"));
+    isMatched = regEx.exec(route.path);
     if (isMatched === null) return isMatched;
     data.matched.push(paths);
     const prevParams = data.params;
@@ -46,7 +44,7 @@ function route(paths, $handler) {
 module.exports = function (req, res, methods) {
   data.req = req;
   data.res = res;
-  data.methods = Object.keys(methods);
+  data.methods = methods;
   data.params = {};
   data.matched.length = 0;
   const host = (data.host = req.headers.host);

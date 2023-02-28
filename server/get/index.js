@@ -3,7 +3,7 @@ const { fs, path, rootPath } = require("../../package/constants"),
   getMimeType = require("mime-types").lookup;
 
 module.exports = function (req, res, route) {
-  console.log(route.isFilePath, route.path);
+  // console.log(route.isFilePath, route.path);
 
   if (route.isFilePath) {
     const filePath = resolvePath(rootPath + "/assets/" + route.path),
@@ -36,14 +36,14 @@ module.exports = function (req, res, route) {
 
 function handler(req, res, route) {
   // console.log(route);
-  console.log(
-    route.hostName,
-    route.ip,
-    route.port,
-    route.path,
-    route.params,
-    route.queryParams
-  );
+  // console.log(
+  // route.hostName,
+  // route.ip,
+  // route.port,
+  // route.path,
+  // route.params,
+  // route.queryParams
+  // );
 
   route("inner", () => console.log("inner"));
 }
