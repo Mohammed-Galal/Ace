@@ -1,5 +1,6 @@
 const resetRouteInfo = require("./router"),
-  { methodsInitialized, accessControlAllowMethods } = require("./constants");
+  { methodsInitialized, methods } = require("./constants"),
+  accessControlAllowMethods = methods.toString();
 
 module.exports = function (req, res) {
   res.setHeader("access-control-allow-methods", accessControlAllowMethods);

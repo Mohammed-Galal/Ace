@@ -13,8 +13,7 @@ const methodsInitialized = {},
   methods = fs
     .readdirSync(methodsPath)
     .map(initMethod)
-    .filter((m) => m !== "INDEX"),
-  accessControlAllowMethods = methods.toString();
+    .filter((m) => m !== "INDEX");
 
 module.exports = {
   http,
@@ -23,7 +22,6 @@ module.exports = {
 
   methodsInitialized,
   methods,
-  accessControlAllowMethods,
 
   Store: new MapPolyfill(),
   SP: URLSearchParams,
