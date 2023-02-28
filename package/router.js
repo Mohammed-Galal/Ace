@@ -1,14 +1,30 @@
 const url = require("url").parse,
   typeCheck = require("type-check").typeCheck,
   formatPath = require("./utils/formatPath"),
-  extentionExp = /\.[^]+$/,
-  { objFromEntries, SP, arrFrom } = require("./constants");
+  {
+    extentionExp,
+    objFromEntries,
+    SP,
+    arrFrom,
+    methods,
+  } = require("./constants");
 
 const openRoutes = [],
   data = {
+    methods,
     params: {},
     matched: [],
   };
+
+module.exports = function (req, res) {
+  data.req = req;
+  data.res = res;
+  data.params = {};
+  data.matched.length = 0;
+  const host = (data.host = req.headers.host);
+  data.reqURL = url("http://" + host + req.url);
+  return route;
+};
 
 function route(paths, $handler) {
   if (data.res.writableEnded)
@@ -40,17 +56,6 @@ function route(paths, $handler) {
     return handlerResult;
   }
 }
-
-module.exports = function (req, res, methods) {
-  data.req = req;
-  data.res = res;
-  data.methods = methods;
-  data.params = {};
-  data.matched.length = 0;
-  const host = (data.host = req.headers.host);
-  data.reqURL = url("http://" + host + req.url);
-  return route;
-};
 
 Object.defineProperties(route, {
   methods: {

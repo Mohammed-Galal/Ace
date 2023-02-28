@@ -1,4 +1,6 @@
-const { fs, path, rootPath } = require("../../package/constants"),
+const fs = require("fs"),
+  path = require("path"),
+  rootPath = "../../",
   resolvePath = path.resolve,
   getMimeType = require("mime-types").lookup;
 
