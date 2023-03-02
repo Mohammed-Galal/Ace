@@ -4,18 +4,21 @@ const fs = require("fs"),
   resolvePath = path.resolve,
   getMimeType = require("mime-types").lookup;
 
-module.exports = function (req, res, route) {
+module.exports = function ({ req, res, route }) {
+  route("/", () => {
+    res.write("root");
+  });
   // console.log(route.isFilePath, route.path);
 
-  if (route.isFilePath) {
-    const filePath = resolvePath(rootPath + "/assets/" + route.path),
-      mime = getMimeType(path);
-    res.setHeader("Content-type", mime);
-    if (fs.existsSync(filePath)) {
-      res.statusCode = 200;
-      res.write(fs.readFileSync(filePath));
-    } else res.statusCode = 404;
-  }
+  // if (route.isFilePath) {
+  //   const filePath = resolvePath(rootPath + "/assets/" + route.path),
+  //     mime = getMimeType(path);
+  //   res.setHeader("Content-type", mime);
+  //   if (fs.existsSync(filePath)) {
+  //     res.statusCode = 200;
+  //     res.write(fs.readFileSync(filePath));
+  //   } else res.statusCode = 404;
+  // }
 
   // res.writeHead(200, {
   //   "content-type": "text/html",
@@ -36,8 +39,8 @@ module.exports = function (req, res, route) {
   if (!res.writableEnded) res.end();
 };
 
-function handler(req, res, route) {
-  // console.log(route);
+function handler({ route }) {
+  // console.log(app);
   // console.log(
   // route.hostName,
   // route.ip,
@@ -46,6 +49,5 @@ function handler(req, res, route) {
   // route.params,
   // route.queryParams
   // );
-
-  route("inner", () => console.log("inner"));
+  route("inner", ({ res }) => res.write("inner"));
 }
