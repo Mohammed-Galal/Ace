@@ -1,5 +1,5 @@
-const { arrFrom } = require("./constants"),
-  formatPath = require("./utils/formatPath"),
+const { arrFrom } = require("../constants"),
+  formatPath = require("../utils/formatPath"),
   err = new Error("");
 
 module.exports = function (paths, $handler) {
@@ -13,19 +13,18 @@ module.exports = function (paths, $handler) {
   const pathsType = paths.constructor.name;
 
   if (pathsType === "Function") return paths(self);
-
-  let isMatched = null;
-  if (pathsType === "Object") {
+  else if (pathsType === "Object") {
+    let isMatched = null;
     const routes = Object.keys(paths);
     routes.forEach(function (r) {
       if (isMatched === null) isMatched = self.route(r, paths[r]);
     });
     return isMatched;
-  }
+  } else if (pathsType !== "String") throw err;
 
   const path = formatPath(paths, true),
     regEx = new RegExp("^/?" + openRoutes.concat(path).join("/"));
-  isMatched = regEx.exec(self.path);
+  const isMatched = regEx.exec(self.path);
   if (isMatched === null) return isMatched;
   self.matchedRoutes.push(paths);
   const prevParams = self.params;

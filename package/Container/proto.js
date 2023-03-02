@@ -1,8 +1,7 @@
-const { extentionExp, methods, objFromEntries, SP } = require("./constants"),
+const { extentionExp, objFromEntries, SP } = require("../constants"),
   enumerable = true;
 
 module.exports = {
-  methods: { enumerable, value: methods },
   path: {
     enumerable,
     get() {
@@ -30,13 +29,13 @@ module.exports = {
   ip: {
     enumerable,
     get() {
-      return this.headers["x-forwarded-for"];
+      return this.req.headers["x-forwarded-for"];
     },
   },
   subdomains: {
     enumerable,
     get() {
-      return this.headers.host.split(".").slice(0, -1);
+      return this.req.headers.host.split(".").slice(0, -1);
     },
   },
   hash: {
