@@ -33,10 +33,8 @@ const methodsInitialized = {},
 function mainHandler(req, res) {
   res.setHeader("access-control-allow-methods", accessControlAllowMethods);
 
-  const CN = freezeObj(new CONTAINER(req, res)),
-    targetMethod = methodsInitialized[req.method];
-
-  // const CN = freezeObj(new CONTAINER(req, res, targetMethod)) then you begin routing from inside
+  const targetMethod = methodsInitialized[req.method],
+    CN = freezeObj(new CONTAINER(req, res));
 
   if (targetMethod !== undefined) CN.route(targetMethod);
   else {

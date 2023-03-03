@@ -1,37 +1,25 @@
-const { arrFrom } = require("../constants"),
-  formatPath = require("../utils/formatPath"),
-  err = new Error("");
+const err = new Error("");
 
 module.exports = function (paths, $handler) {
   const self = this,
-    openRoutes = self.openRoutes,
-    args = arrFrom(arguments).filter(Boolean),
-    length = args.length;
-
-  if (length === 0 || length > 2) throw err;
-
-  const pathsType = paths.constructor.name;
+    pathsType = paths.constructor.name;
 
   if (pathsType === "Function") return paths(self);
   else if (pathsType === "Object") {
-    let isMatched = null;
+    let isMatched = false;
     const routes = Object.keys(paths);
     routes.forEach(function (r) {
-      if (isMatched === null) isMatched = self.route(r, paths[r]);
+      if (isMatched === false) isMatched = self.route(r, paths[r]);
     });
     return isMatched;
   } else if (pathsType !== "String") throw err;
 
-  const path = formatPath(paths, true),
-    regEx = new RegExp("^/?" + openRoutes.concat(path).join("/"));
-  const isMatched = regEx.exec(self.path);
-  if (isMatched === null) return isMatched;
+  const url = self.url,
+    pathExp = url.test(paths);
+  if (pathExp === false) return false;
   self.matchedRoutes.push(paths);
-  const prevParams = self.params;
-  self.params = isMatched.groups;
-  openRoutes.push(path);
+  url.openRoutes.push(pathExp);
   const handlerResult = $handler(self);
-  openRoutes.pop();
-  self.params = prevParams;
+  url.openRoutes.pop();
   return handlerResult;
 };

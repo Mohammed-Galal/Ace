@@ -1,6 +1,5 @@
-const http = require("http");
-
-const extentionExp = /\..+$/,
+const http = require("http"),
+  extentionExp = /\..+$/,
   emptyStr = "";
 
 module.exports = {
@@ -8,10 +7,11 @@ module.exports = {
   reqProto: http.IncomingMessage.prototype,
   resProto: http.ServerResponse.prototype,
 
+  seperator: "/",
+  enumerable: true,
   extentionExp,
   emptyStr,
 
-  SP: URLSearchParams,
   objFromEntries: Object.fromEntries,
   freezeObj: Object.freeze,
   isArray: Array.isArray,

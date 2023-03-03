@@ -1,18 +1,17 @@
-const { isArray } = require("../constants");
+const { isArray, seperator } = require("../constants");
 
-const seprator = "/",
-  trimEndExp = /\/?\$$/,
+const trimEndExp = /\/?\$$/,
   trimVal = "/?$";
 
 module.exports = function formatPath(paths, handleExps) {
   if (isArray(paths)) return "(" + paths.map(formatPath).join("|") + ")";
 
-  const pathNormailized = paths.split(seprator);
-  if (handleExps !== true) return pathNormailized.join(seprator);
+  const pathNormailized = paths.split(seperator);
+  if (handleExps !== true) return pathNormailized.join(seperator);
   else
     return pathNormailized
       .map(paramHandler)
-      .join(seprator)
+      .join(seperator)
       .replace(trimEndExp, trimVal);
 };
 
