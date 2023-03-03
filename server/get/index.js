@@ -4,10 +4,12 @@ const fs = require("fs"),
   resolvePath = path.resolve,
   getMimeType = require("mime-types").lookup;
 
-module.exports = function ({ req, res, route }) {
-  route("/", () => {
-    res.write("root");
-  });
+module.exports = function (app) {
+  console.log(app);
+  const res = app.res;
+  // route("/", () => {
+  //   res.write("root");
+  // });
   // console.log(route.isFilePath, route.path);
 
   // if (route.isFilePath) {
@@ -29,13 +31,12 @@ module.exports = function ({ req, res, route }) {
   //     "X-Requested-With,content-type, Authorization",
   // });
 
-  route({
-    "/1": () => res.write("first route"),
-    "/2": () => res.write("second route"),
-  });
+  // route({
+  //   "/1": () => res.write("first route"),
+  //   "/2": () => res.write("second route"),
+  // });
 
-  route("api/:id", handler);
-
+  // route("api/:id", handler);
   if (!res.writableEnded) res.end();
 };
 

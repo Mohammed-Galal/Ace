@@ -16,8 +16,6 @@ function URL(url) {
   const urlObj = parseURL(url),
     pathName = formatPath(urlObj.pathname),
     openRoutes = (this.openRoutes = []);
-  this.port = urlObj.port;
-  this.hostName = urlObj.hostName;
   this.hash = urlObj.hash;
   this.path = {
     name: pathName,

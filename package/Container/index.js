@@ -10,11 +10,19 @@ function CONTAINER(req, res) {
   this.res = res;
   this.data = new MapPolyfill();
   this.matchedRoutes = [];
-  this.url = freezeObj(new URL(req.url));
+  this.url = new URL(req.url);
+  this.host = req.headers.host;
   this.route = router.bind(this);
+  freezeObj(this.url);
 }
 
 Object.defineProperties(CONTAINER.prototype, {
+  port: {
+    enumerable,
+    get() {
+      return this.host.match(/(?<=\:)\d+$/)[0];
+    },
+  },
   ip: {
     enumerable,
     get() {
