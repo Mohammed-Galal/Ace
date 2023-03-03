@@ -36,9 +36,9 @@ function mainHandler(req, res) {
   const targetMethod = methodsInitialized[req.method],
     CN = freezeObj(new CONTAINER(req, res));
 
-  if (targetMethod !== undefined) CN.route(targetMethod);
+  if (targetMethod !== undefined) targetMethod(CN);
   else {
-    if (methodsInitialized.NOTFOUND) CN.route(methodsInitialized.NOTFOUND);
+    if (methodsInitialized.NOTFOUND) methodsInitialized.NOTFOUND(CN);
     else {
     }
   }

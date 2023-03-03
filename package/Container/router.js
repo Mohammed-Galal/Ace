@@ -12,7 +12,7 @@ module.exports = function (paths, $handler) {
       if (isMatched === false) isMatched = self.route(r, paths[r]);
     });
     return isMatched;
-  } else if (pathsType !== "String") throw err;
+  }
 
   const url = self.url,
     pathExp = url.test(paths);

@@ -6,8 +6,8 @@ const URL = require("./url"),
 module.exports = CONTAINER;
 
 function CONTAINER(req, res) {
-  this.req = req;
-  this.res = res;
+  this.__proto__.req = req;
+  this.__proto__.res = res;
   this.data = new MapPolyfill();
   this.matchedRoutes = [];
   this.url = new URL(req.url);
@@ -32,8 +32,7 @@ Object.defineProperties(CONTAINER.prototype, {
   subdomains: {
     enumerable,
     get() {
-      return this.req.headers.host.split(".").slice(0, -1);
+      return this.host.split(".").slice(0, -1);
     },
   },
 });
-freezeObj(CONTAINER.prototype);
