@@ -10,9 +10,9 @@ const parseURL = require("url").parse,
   } = require("../constants"),
   firstExp = "^/?";
 
-module.exports = URL;
+module.exports = UniformResourceLocator;
 
-function URL(url) {
+function UniformResourceLocator(url) {
   const urlObj = parseURL(url),
     pathName = formatPath(urlObj.pathname),
     openRoutes = (this.openRoutes = []);
@@ -30,7 +30,7 @@ function URL(url) {
   };
 }
 
-URL.prototype.test = function ($path) {
+UniformResourceLocator.prototype.test = function ($path) {
   const openRoutes = this.openRoutes,
     path = this.path.name,
     pathExp = formatPath($path, true),
@@ -38,7 +38,7 @@ URL.prototype.test = function ($path) {
   return regEx.test(path) && pathExp;
 };
 
-Object.defineProperty(URL.prototype, "isFilePath", {
+Object.defineProperty(UniformResourceLocator.prototype, "isFilePath", {
   enumerable,
   get() {
     return extentionExp.test(this.path.name);

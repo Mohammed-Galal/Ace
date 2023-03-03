@@ -1,4 +1,4 @@
-const URL = require("./url"),
+const URL = require("./UniformResourceLocator"),
   { enumerable, freezeObj } = require("../constants"),
   MapPolyfill = require("../utils/mapPolyfill"),
   router = require("./router");
