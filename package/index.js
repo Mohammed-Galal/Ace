@@ -42,8 +42,6 @@ function mainHandler(req, res) {
     else {
     }
   }
-
-  CN.data.clear();
 }
 
 function initMethod(method) {

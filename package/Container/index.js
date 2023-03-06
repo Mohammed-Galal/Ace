@@ -8,7 +8,7 @@ module.exports = CONTAINER;
 function CONTAINER(req, res) {
   this.__proto__.req = req;
   this.__proto__.res = res;
-  this.data = new MapPolyfill();
+  this.clues = new MapPolyfill();
   this.matchedRoutes = [];
   this.url = new URL(req.url);
   this.host = req.headers.host;
