@@ -6,12 +6,10 @@ const {
     emptyStr,
   } = require("./constants"),
   fs = require("fs"),
-  path = require("path"),
-  rootPath = process.cwd(),
   CONTAINER = require("./Container");
-("use strict");
-require("./request.js");
-require("./response.js");
+
+Object.assign(http.IncomingMessage.prototype, require("reqProto"));
+Object.assign(http.ServerResponse.prototype, require("resProto"));
 
 module.exports = function () {
   if (arguments.length === 0) return mainHandler;
@@ -20,11 +18,10 @@ module.exports = function () {
 };
 
 const methodsInitialized = {},
-  resolvePath = path.resolve,
-  methodsPath = resolvePath(rootPath + "/server"),
+  methodsPath = "server",
   methods = (CONTAINER.prototype.method = freezeObj(
     fs
-      .readdirSync(methodsPath)
+      .readdirSync(__dirname + "/" + methodsPath)
       .map(initMethod)
       .filter((m) => m !== "INDEX")
   )),
@@ -46,8 +43,7 @@ function mainHandler(req, res) {
 
 function initMethod(method) {
   // get all methods initialized in the server folder and merge it with object above [methodsInitialized]
-  const M = method.toUpperCase().replace(extentionExp, emptyStr),
-    methodPath = methodsPath + "/" + method;
-  methodsInitialized[M] = require(methodPath);
+  const M = method.toUpperCase().replace(extentionExp, emptyStr);
+  methodsInitialized[M] = __non_webpack_require__("./server/" + method);
   return M;
 }

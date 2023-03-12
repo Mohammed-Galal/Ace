@@ -5,14 +5,10 @@ const trimEndExp = /\/?\$$/,
 
 module.exports = function formatPath(paths, handleExps) {
   if (isArray(paths)) return "(" + paths.map(formatPath).join("|") + ")";
-
-  const pathNormailized = paths.split(seperator);
+  const path = paths.replace(trimEndExp, trimVal),
+    pathNormailized = path.split(seperator);
   if (handleExps !== true) return pathNormailized.join(seperator);
-  else
-    return pathNormailized
-      .map(paramHandler)
-      .join(seperator)
-      .replace(trimEndExp, trimVal);
+  else return pathNormailized.map(paramHandler).join(seperator);
 };
 
 function paramHandler(str) {

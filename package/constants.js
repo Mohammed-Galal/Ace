@@ -4,8 +4,6 @@ const http = require("http"),
 
 module.exports = {
   http,
-  reqProto: http.IncomingMessage.prototype,
-  resProto: http.ServerResponse.prototype,
 
   seperator: "/",
   enumerable: true,
