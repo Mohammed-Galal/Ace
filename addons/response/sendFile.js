@@ -1,7 +1,9 @@
-const fs = require("fs"),
-  path = require("path"),
-  resolvePath = path.resolve,
-  getMimeType = require("mime-types").lookup;
+const fs = require("fs");
+const path = require("path");
+const mimeTypes = require("mime-types");
+
+const resolvePath = path.resolve,
+  getMimeType = mimeTypes.lookup;
 
 module.exports = function ($path, headers) {
   $path = path.basename($path);
