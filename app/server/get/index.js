@@ -16,7 +16,7 @@ module.exports = function (app) {
   // }
 
   route("/", () => {
-    res.write("root");
+    res.write("root ijfoie");
   });
 
   route({

@@ -1,6 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const mimeTypes = require("mime-types");
+const fs = require("fs"),
+  path = require("path"),
+  mimeTypes = require("mime-types");
 
 const resolvePath = path.resolve,
   getMimeType = mimeTypes.lookup;

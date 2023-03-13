@@ -1,4 +1,5 @@
-const path = require("path"),
+const http = require("http"),
+  path = require("path"),
   rootPath = process.cwd(),
   // targetApp = process.argv.slice(2)[0],
   targetApp = "app",
@@ -16,10 +17,10 @@ config.entry = {
 
 config.output = {
   path: path.resolve(rootPath, targetApp),
+  chunkFormat: "commonjs",
   filename(pathData) {
     return pathData.chunk.name === "index" ? "[name].js" : "modules/[name].js";
   },
-  chunkFormat: "commonjs",
 };
 
 config.resolve = {
@@ -43,9 +44,19 @@ config.optimization = {
 };
 
 try {
-  webpack(config).run();
+  const compiler = webpack(config),
+    watchOptions = {
+      ignored: /node_modules/,
+    };
+
+  compiler.watch(watchOptions, webpackCallback);
+  // .run();
 } catch {
   console.log(config);
+}
+
+function webpackCallback() {
+  // console.log(arguments);
 }
 
 /**
