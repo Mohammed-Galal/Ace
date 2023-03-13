@@ -1,6 +1,6 @@
 const URL = require("./UniformResourceLocator"),
   { enumerable, freezeObj } = require("../constants"),
-  MapPolyfill = require("../utils/mapPolyfill"),
+  MapPolyfill = require("./mapPolyfill"),
   router = require("./router");
 
 module.exports = CONTAINER;

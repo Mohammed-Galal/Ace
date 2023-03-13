@@ -5,8 +5,10 @@ const path = require("path"),
   webpack = require("webpack");
 
 const config = {},
+  modes = ["none", "development", "production"],
   targets = ["node", "web"];
 
+config.mode = modes[1];
 config.target = targets[0];
 config.entry = {
   index: path.resolve(rootPath, targetApp + "/config.js"),
@@ -54,5 +56,4 @@ config.plugins =
     serve: path.resolve(path.join(__dirname, "server")),
     }),
   ];
-
   */
