@@ -8,10 +8,15 @@ const config = {},
   targets = ["node", "web"];
 
 config.target = targets[0];
-config.entry = path.resolve(rootPath, targetApp + "/config.js");
+config.entry = {
+  index: path.resolve(rootPath, targetApp + "/config.js"),
+};
+
 config.output = {
   path: path.resolve(rootPath, targetApp),
-  filename: "index.js",
+  filename(pathData) {
+    return pathData.chunk.name === "index" ? "[name].js" : "modules/[name].js";
+  },
   chunkFormat: "commonjs",
 };
 
@@ -20,6 +25,18 @@ config.resolve = {
     ace: path.resolve(rootPath, "package/index.js"),
     resProto: path.resolve(rootPath, "addons/response"),
     reqProto: path.resolve(rootPath, "addons/request"),
+  },
+};
+
+config.optimization = {
+  chunkIds: "named",
+  splitChunks: {
+    chunks: "all",
+    cacheGroups: {
+      module: {
+        test: /[\\/]node_modules[\\/]/,
+      },
+    },
   },
 };
 
