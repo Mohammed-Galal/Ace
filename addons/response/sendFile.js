@@ -11,9 +11,8 @@ module.exports = function ($path, headers) {
     mime = getMimeType(path.basename($path));
 
   fs.readFile(targetPath, function (err, data) {
-    if (err) {
-      RES.statusCode = 404;
-    } else {
+    if (err) RES.statusCode = 404;
+    else {
       const H = headers && headers instanceof Object ? headers : {};
       H["Content-Type"] = mime;
       RES.writeHead(200, H);
