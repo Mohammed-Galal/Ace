@@ -49,8 +49,8 @@ try {
       ignored: /node_modules/,
     };
 
-  compiler.watch(watchOptions, webpackCallback);
-  // .run();
+  // compiler.watch(watchOptions, webpackCallback);
+  compiler.run();
 } catch {
   console.log(config);
 }
