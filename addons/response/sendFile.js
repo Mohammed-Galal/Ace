@@ -6,10 +6,9 @@ const resolvePath = path.resolve,
   getMimeType = mimeTypes.lookup;
 
 module.exports = function ($path, headers) {
-  $path = path.basename($path);
   const RES = this,
     targetPath = resolvePath(__dirname, "assets/" + $path),
-    mime = getMimeType($path);
+    mime = getMimeType(path.basename($path));
 
   fs.readFile(targetPath, function (err, data) {
     if (err) {
